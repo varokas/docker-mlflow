@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mlflow:
+    build: .
+    restart: always
+    depends_on: 
+      - "db"
+    environment: 
+      - AWS_ACCESS_KEY_ID=key
+      - AWS_SECRET_ACCESS_KEY=secret
+      - BACKEND=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgrespassword
+      - DEFAULT_ARTIFACT_ROOT=s3://bucket
+    ports:
+      - 8000:8000
+  db:
+    image: postgres:12.2
+    restart: always
+    environment: 
+      - POSTGRES_PASSWORD=postgrespassword
